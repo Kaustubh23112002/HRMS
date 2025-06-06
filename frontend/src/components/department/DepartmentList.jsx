@@ -19,12 +19,13 @@ const [departments, setDepartments] = useState([]);
         })
         if(response.data.success) {
           let sno = 1;
+        
           const data = await response.data.departments.map((dep) => (
             {
               _id: dep._id,
               sno: sno++,
               dep_name: dep.dep_name,
-              action: (<DepartmentButtons/>)
+              action: (<DepartmentButtons DepId={dep._id}/>)
             }
           ));
           setDepartments(data);
@@ -40,7 +41,7 @@ const [departments, setDepartments] = useState([]);
     };
 
     fetchDepartments()
-  })
+  }, [])
   return (
     <>{depLoading ? <div> Loading ...</div>:
     <div className='p-5'>
@@ -53,7 +54,7 @@ const [departments, setDepartments] = useState([]);
         className='px-4 py-1 bg-teal-600 rounded text-white'>
           Add New Department</Link>
       </div>
-      <div>
+      <div className='mt-5'>
         <DataTable
         columns={columns} data={departments}
         />

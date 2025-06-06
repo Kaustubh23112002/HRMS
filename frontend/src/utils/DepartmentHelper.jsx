@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom"
 
 
 export const columns = [
@@ -15,11 +16,14 @@ export const columns = [
     }
 ]
 
-export const DepartmentButtons = () => {
+export const DepartmentButtons = ({DepId}) => {
+    const navigate = useNavigate()
+ 
     return (
-        <div>
-            <button>edit</button>
-            <button>Delete</button>
+        <div className="flex space-x-3">
+            <button className="px-3 py-1 bg-teal-600 text-white"
+            onClick={() => navigate(`/admin-dashboard/department/${DepId}`)}>edit</button>
+            <button className="px-3 py-1 bg-red-600 text-white">Delete</button>
         </div>
     )
 }
