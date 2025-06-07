@@ -9,6 +9,7 @@ const AddDepartment = () => {
         description: ''
     })
     const navigate = useNavigate()
+    
     const handleChange = (e) => {
         const {name, value} = e.target;
         setDepartment({...department, [name] : value})
