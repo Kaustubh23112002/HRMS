@@ -1,6 +1,6 @@
 import multer from "multer";
 import Employee from "../models/Employee.js";
-import { User } from "../models/User.models.js";
+import  {User} from "../models/User.models.js";
 import bcrypt from "bcrypt";
 import path from "path";
 
@@ -61,14 +61,24 @@ const addEmployee = async (req, res) => {
     });
 
     await newEmployee.save();
-    return res.status(200).json({ sucess: true, message: "employee created" });
+    return res.status(200).json({ success: true, message: "employee created" });
   } catch (error) {
     console.log(error);
     
     return res
       .status(500)
-      .json({ sucess: false, error: "Server error in adding employee" });
+      .json({ success: false, error: "Server error in adding employee" });
   }
 };
 
-export { addEmployee, upload };
+const getEmployees = async (req, res) => {
+  try {
+    
+    const employees = await Employee.find().populate('userId', {password: 0}).populate("department")
+      return res.status(200).json({success: true, employees})
+    } catch (error) {
+        return res.status(500).json({success: false, error: "get employees server error"})
+    }
+}
+
+export { addEmployee, upload,getEmployees };

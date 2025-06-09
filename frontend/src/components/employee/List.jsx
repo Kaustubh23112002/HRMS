@@ -1,7 +1,50 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
+import { EmployeeButtons } from "../../utils/EmployeeHelper";
 
 const List = () => {
+  const [employees, getEmployees] = useState([])
+  const [empLoading, setEmpLoading] = useState(false)
+
+   useEffect(() => {
+      const fetchEmployees = async () => {
+        setEmpLoading(true)
+        try {
+          const response = await axios.get('http://localhost:8000/api/employees',{
+            headers: {
+              "Authorization" : `Bearer ${localStorage.getItem('token')}`
+            }
+          })
+          if(response.data.success) {
+            let sno = 1;
+          
+            const data = await response.data.employees.map((emp) => (
+              {
+                _id: emp._id,
+                sno: sno++,
+                dep_name: emp.department.dep_name,
+                name: emp.userId.name,
+                dob: emp.dob,
+                profileImage: emp.userId.profileImage,
+                action: (<EmployeeButtons Id={emp._id}/>)
+              }
+            ));
+            setDepartments(data);
+            setFilterDepartments(data)
+  
+          }
+        } catch (error) {
+            if(error.response && !error.response.data.success){
+              alert(error.response.data.error)
+            }
+        } finally {
+          setEmpLoading(false)
+        }
+      };
+  
+      fetchDepartments()
+    }, []);
+  
   return (
     <div className="p-6">
       <div className="text-center">
