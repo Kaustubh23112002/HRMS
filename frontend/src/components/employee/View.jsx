@@ -1,11 +1,10 @@
 import axios from "axios";
-import { div } from "framer-motion/client";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 const View = () => {
   const { id } = useParams();
-  const { employee, setEmployee } = useState(null);
+  const [employee, setEmployee] = useState(null);
 
   useEffect(() => {
     const fetchEmployee = async () => {
