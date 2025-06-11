@@ -3,7 +3,7 @@ import { User } from "../models/User.models.js";
 
 const verifyUser = async (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
+    const token = req.headers.authorization.split(' ')[1];
     if (!token) {
       return res
         .status(404)
@@ -25,7 +25,7 @@ const verifyUser = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    return res.status(500).json({ success: false, error: "server error" });
+    return res.status(500).json({ success: false, error: "server error" +error});
   }
 };
 

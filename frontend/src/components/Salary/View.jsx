@@ -72,8 +72,8 @@ const View = () => {
                             <td className="px-6 py-3">{sno++}</td>
                             <td className="px-6 py-3">{salary.employeeId.employeeId}</td>
                             <td className="px-6 py-3">{salary.basicSalary}</td>
-                            <td className="px-6 py-3">{salary.allowance}</td>
-                            <td className="px-6 py-3">{salary.deduction}</td>
+                            <td className="px-6 py-3">{salary.allowances}</td>
+                            <td className="px-6 py-3">{salary.deductions}</td>
                             <td className="px-6 py-3">{salary.netSalary}</td>
                             <td className="px-6 py-3">{new Date(salary.payDate).toLocaleDateString()}</td>
                         </tr>
