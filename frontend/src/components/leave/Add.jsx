@@ -18,9 +18,9 @@ const Add = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-           try {
+    try {
         const response = await axios.post(
-          `http://localhost:8000/api/leave/add`,
+          `http://localhost:8000/api/leave/add`,leave,
           {
             headers: {
               "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -29,7 +29,7 @@ const Add = () => {
         );
         
         if (response.data.success) {
-            navigate('/employee-dashboard/leaves')
+            navigate(`/employee-dashboard/leaves/${user._id}`)
          
         }
       } catch (error) {
@@ -57,7 +57,7 @@ const Add = () => {
                             <option value="">Select Department</option>
                             <option value="Sick Leave">Sick Leave</option>
                             <option value="Casual Leave">Casual Leave</option>
-                            <option value="Annual Leave">Annnual Leave</option>
+                            <option value="Annual Leave">Annual Leave</option>
                         </select>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

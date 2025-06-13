@@ -80,7 +80,7 @@ export const getEmployees = async (id) => {
 
 export const EmployeeButtons = ({ DepId }) => {
   const navigate = useNavigate();
-
+  
   return (
     <div className="flex space-x-3">
       <button
@@ -92,9 +92,10 @@ export const EmployeeButtons = ({ DepId }) => {
       <button className="px-3 py-1 bg-blue-600 text-white"
         onClick={() => navigate(`/admin-dashboard/employees/edit/${DepId}`)}>Edit</button>
       <button className="px-3 py-1 bg-yellow-600 text-white"
-      onClick={() => navigate(`/admin-dashboard/employees/salary/${DepId}`)}
+      onClick={() => navigate(`/admin-dashboard/employees/salary/${DepId}/`)}
       >Salary</button>
-      <button className="px-3 py-1 bg-red-600 text-white">Leave</button>
+      <button className="px-3 py-1 bg-red-600 text-white"
+      onClick={() => navigate(`/admin-dashboard/employees/leaves/${DepId}`)}>Leave</button>
     </div>
   );
 };

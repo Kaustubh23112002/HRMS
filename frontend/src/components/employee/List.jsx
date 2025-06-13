@@ -18,13 +18,13 @@ const List = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        console.log(response.data.employees);
+       
 
         if (response.data.success) {
           let sno = 1;
 
-          const data = response.data.employees
-            .filter((emp) => emp.department && emp.userId) // Skip invalid entries
+          const data = await response.data.employees
+           
             .map((emp) => ({
               _id: emp._id,
               sno: sno++,

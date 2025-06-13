@@ -8,17 +8,15 @@ import axios from "axios";
 const DepartmentList = () => {
 const [departments, setDepartments] = useState([]);
 const [depLoading,setDepLoading] = useState(false)
-const [filteredDepartments, setFilterDepartments] = useState([])
+const [filteredDepartments, setFilteredDepartments] = useState([])
 
 
-  const onDepartmentDelete = async (id) => {
-    const data = departments.filter(dep => dep._id !== id)
-    setDepartments(data)
+  const onDepartmentDelete =  () => {
+   fetchDepartments()
 
   }
 
-  useEffect(() => {
-    const fetchDepartments = async () => {
+   const fetchDepartments = async () => {
       setDepLoading(true)
       try {
         const response = await axios.get('http://localhost:8000/api/department',{
@@ -38,7 +36,7 @@ const [filteredDepartments, setFilterDepartments] = useState([])
             }
           ));
           setDepartments(data);
-          setFilterDepartments(data)
+          setFilteredDepartments(data)
 
         }
       } catch (error) {
@@ -50,13 +48,16 @@ const [filteredDepartments, setFilterDepartments] = useState([])
       }
     };
 
+  useEffect(() => {
+   
+
     fetchDepartments()
   }, []);
 
   const filterDepartments = (e) => {
     const records = departments.filter((dep) => 
     dep.dep_name.toLowerCase().includes(e.target.value.toLowerCase()))
-    setFilterDepartments(records)
+    setFilteredDepartments(records)
 
 
   }

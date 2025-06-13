@@ -1,61 +1,42 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import {  EmployeeButtons } from "../../utils/EmployeeHelper";
+import { Link, useParams } from "react-router-dom";
+import {useAuth} from '../../context/authContext'
 
 import axios from "axios";
 
 const List = () => {
-  const [employees, setEmployees] = useState([]);
-  const [empLoading, setEmpLoading] = useState(false);
-  const [filteredEmployee, setFilteredEmployees] = useState([])
+const [leaves, setLeaves] = useState(null)
+let sno = 1;
+const {id} = useParams()
+const {user} = useAuth()
+
+
+    const fetchLeaves= async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/leave/${id}/${user.role}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+     
+      if (response.data.success) {
+       setLeaves(response.data.leaves);
+      }
+    } catch (error) {
+      if (error.response && !error.response.data.success) {
+        alert(error.message);
+      }
+    }
+  };
 
   useEffect(() => {
-    const fetchEmployees = async () => {
-      setEmpLoading(true);
-      try {
-        const response = await axios.get("http://localhost:8000/api/employee", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        console.log(response.data.employees);
-
-        if (response.data.success) {
-          let sno = 1;
-
-          const data = response.data.employees
-            .filter((emp) => emp.department && emp.userId) // Skip invalid entries
-            .map((emp) => ({
-              _id: emp._id,
-              sno: sno++,
-              dep_name: emp.department.dep_name,
-              name: emp.userId.name,
-              dob: new Date(emp.dob).toLocaleDateString(),
-              profileImage: <img width={50} className="rounded-full" src={`http://localhost:8000/${emp.userId.profileImage}`} />,
-              action: (<EmployeeButtons DepId={emp._id} />),
-            }));
-          setEmployees(data);
-          setFilteredEmployees(data)
-        }
-      } catch (error) {
-        console.log(error);
-
-        if (error.response && !error.response.data.success) {
-          alert(error.response.data.error);
-        }
-      } finally {
-        setEmpLoading(false);
-      }
-    };
-
-    fetchEmployees();
+    fetchLeaves()
   }, []);
 
-  const handleFilter = (e) => {
-    const records = employees.filter((emp) => (
-      emp.name.toLowerCase().includes(e.target.value.toLowerCase())
-    ))
-    setFilteredEmployees(records)
+  if(!leaves) {
+    return <div>
+      Loading
+    </div>
   }
   return (
     <div className="p-6">
@@ -67,16 +48,46 @@ const List = () => {
           type="text"
           placeholder="search By Dep Name"
           className="px-4 py-0.5 border"
-          onChange={handleFilter}
+      
         />
+        {user.role === "employee" && (
+
+       
         <Link
           to="/employee-dashboard/add-leave"
           className="px-4 py-1 bg-teal-600 rounded text-white"
         >
           Add New Leave
         </Link>
+         )}
       </div>
      
+     <table className="w-full text-sm text-left text-gray-500 mt-6">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 border border-gray-200">
+                    <tr>
+                        <th className="px-6 py-3">SNO</th>
+                        <th className="px-6 py-3">LEAVE TYPE</th>
+                        <th className="px-6 py-3">FROM</th>
+                        <th className="px-6 py-3">TO</th>
+                        <th className="px-6 py-3">DESCRIPTION</th>
+                        <th className="px-6 py-3">STATUS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {leaves.map((leave) => (
+                        <tr key={leave.id} className="bg-white border-b dark:bg-gray=700">
+                            <td className="px-6 py-3">{sno++}</td>
+                            <td className="px-6 py-3">{leave.leaveType}</td>
+                          
+                            <td className="px-6 py-3">{new Date(leave.startDate).toLocaleDateString()}</td>
+                            <td className="px-6 py-3">{new Date(leave.endDate).toLocaleDateString()}</td>
+                            <td className="px-6 py-3">{leave.reason}</td>
+                           <td className="px-6 py-3">{leave.status}</td>
+
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
     </div>
   );
 };
