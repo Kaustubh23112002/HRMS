@@ -80,6 +80,8 @@ const getEmployees = async (req, res) => {
       .populate("department");
     return res.status(200).json({ success: true, employees });
   } catch (error) {
+    console.log(error);
+    
     return res
       .status(500)
       .json({ success: false, error: "get employees server error" });
@@ -100,7 +102,7 @@ const getEmployee = async (req, res) => {
       }
     return res.status(200).json({ success: true, employee });
   } catch (error) {
-    // console.log(error);
+    console.log(error);
 
     return res
       .status(500)

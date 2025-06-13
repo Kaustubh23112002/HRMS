@@ -1,16 +1,20 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../../context/authContext";
+
 
 const View = () => {
   const { id } = useParams();
   const [employee, setEmployee] = useState(null);
+  
+  const {user} = useAuth()
 
   useEffect(() => {
     const fetchEmployee = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/employee/${id}`,
+          `http://localhost:8000/api/employee/${id}/${user.role}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -22,6 +26,8 @@ const View = () => {
           setEmployee(response.data.employee);
         }
       } catch (error) {
+        console.log(error);
+        
         if (error.response && !error.response.data.success) {
           alert(error.response.data.error);
         }
