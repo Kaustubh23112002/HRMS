@@ -3,6 +3,8 @@ import { fetchDepartments } from "../../utils/EmployeeHelper";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
+import {useAuth} from "../../context/authContext.jsx"
+
 const Edit = () => {
   const [employee, setEmployee] = useState({
     name: '',
@@ -14,7 +16,7 @@ const Edit = () => {
   const [departments, setDepartments] =useState(null)
   const navigate = useNavigate()
   const {id} = useParams()
-
+const {user} = useAuth()
 
     useEffect(() => {
       const getDepartments = async () => {
@@ -28,7 +30,7 @@ const Edit = () => {
       const fetchEmployee = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/employee/${id}`,
+          `http://localhost:8000/api/employee/${id}/${user.role}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -45,6 +47,8 @@ const Edit = () => {
           }));
         }
       } catch (error) {
+        console.log(error);
+        
         if (error.response && !error.response.data.success) {
           alert(error.response.data.error);
         }
@@ -78,6 +82,7 @@ const Edit = () => {
         navigate("/admin-dashboard/employees");
       }
     } catch (error) {
+      console.log(error)
       if (error.response && !error.response.data.success) {
         alert(error.response.data.error);
       }

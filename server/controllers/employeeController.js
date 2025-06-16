@@ -3,8 +3,6 @@ import Employee from "../models/Employee.js";
 import { User } from "../models/User.models.js";
 import bcrypt from "bcrypt";
 import path from "path";
-import Department from '../models/Department.js'
-import { error } from "console";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -92,7 +90,7 @@ const getEmployee = async (req, res) => {
   
   try {
     let employee;
-    employee = await Employee.findById({ _id: id })
+    employee = await Employee.findById(id)
       .populate("userId", { password: 0 })
       .populate("department");
       if(!employee) {

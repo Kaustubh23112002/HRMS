@@ -13,8 +13,8 @@ const router = express.Router();
 
 router.get("/", authMiddleware, getEmployees);
 router.post("/add", authMiddleware, upload.single("image"), addEmployee);
-router.get("/:id/:role", authMiddleware, getEmployee);
 router.put('/:id',authMiddleware, updateEmployee)
 router.get('/department/:id',authMiddleware, fetchEmployeesByDepId)
+router.get("/:id/:role", authMiddleware, getEmployee);
 
 export default router;
