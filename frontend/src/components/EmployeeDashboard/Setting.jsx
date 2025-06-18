@@ -27,7 +27,7 @@ const Setting = () => {
     } else {
         try {
             const response = await axios.put(
-                "http://localhost:8000/api/setting/change-password",
+                "https://hrms-backend-o2gb.onrender.com/api/setting/change-password",
                 setting,
                 {
                     headers: {
