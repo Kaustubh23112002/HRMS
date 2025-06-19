@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import {FaTachometerAlt, FaUsers, FaBuilding, FaCalendarAlt, FaCogs, FaMoneyBillWave} from 'react-icons/fa'
+import {FaTachometerAlt, FaUsers, FaBuilding, FaCalendarAlt, FaCogs, FaMoneyBillWave, FaRegCalendarAlt} from 'react-icons/fa'
 import { useAuth } from "../../context/authContext";
 
 const Sidebar = () => {
@@ -36,6 +36,12 @@ const Sidebar = () => {
             className={({isActive}) => `${isActive ? "bg-teal-500 " : " "}flex items-center space-x-4 py-2.5 px-4 rounded`}>
                 <FaCalendarAlt />
                 <span>Salary</span>
+            </NavLink>
+
+              <NavLink to={`/employee-dashboard/attendance/${user._id}`} 
+            className={({isActive}) => `${isActive ? "bg-teal-500 " : " "}flex items-center space-x-4 py-2.5 px-4 rounded`}>
+                <FaRegCalendarAlt />
+                <span>Attendance</span>
             </NavLink>
            
             <NavLink

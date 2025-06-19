@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import {FaTachometerAlt, FaUsers, FaBuilding, FaCalendarAlt, FaCogs, FaMoneyBillWave} from 'react-icons/fa'
+import {FaTachometerAlt, FaUsers, FaBuilding, FaCalendarAlt, FaCogs, FaMoneyBillWave, FaRegCalendarAlt } from 'react-icons/fa'
+import {AiOutlineFileText} from 'react-icons/ai'
 
 const AdminSidebar = () => {
   return (
@@ -36,6 +37,17 @@ const AdminSidebar = () => {
             <NavLink to="/admin-dashboard/salary/add" className={({isActive}) => `${isActive ? "bg-teal-500 " : " "}flex items-center space-x-4 py-2.5 px-4 rounded`}>
                 <FaMoneyBillWave />
                 <span>Salary</span>
+            </NavLink>
+
+            <NavLink to={`/admin-dashboard/attendance`} 
+            className={({isActive}) => `${isActive ? "bg-teal-500 " : " "}flex items-center space-x-4 py-2.5 px-4 rounded`}>
+            <FaRegCalendarAlt />
+            <span>Attendance</span>
+            </NavLink>
+            <NavLink to={`/admin-dashboard/attendance-report`} 
+            className={({isActive}) => `${isActive ? "bg-teal-500 " : " "}flex items-center space-x-4 py-2.5 px-4 rounded`}>
+            <AiOutlineFileText />
+            <span>Attendance Report</span>
             </NavLink>
             <NavLink to="/admin-dashboard/setting" className={({isActive}) => `${isActive ? "bg-teal-500 " : " "}flex items-center space-x-4 py-2.5 px-4 rounded`}>
                 <FaCogs />
